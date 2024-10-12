@@ -18,7 +18,7 @@ export const addNote = async (req, res) => {
 };
 
 export const getNotes = async (req, res) => {
-  const { userId } = req.params;
+  const { userId } = req;
   
 
   try {

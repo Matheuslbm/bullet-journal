@@ -5,7 +5,7 @@ import { authMiddleware } from '../middleware/authMiddleware.js';
 const router = Router();
 
 router.post('/', authMiddleware, addNote);
-router.get('/:userId', authMiddleware, getNotes);
+router.get('/', authMiddleware, getNotes);
 // Add rotas para update e delete
 
 export default router;
