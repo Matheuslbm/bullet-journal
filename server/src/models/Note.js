@@ -37,7 +37,7 @@ export const searchNotesInDb = async (userId, searchTerm) => {
         },
       ],
     },
-    orderBy: {date: 'desc'},
+    orderBy: { date: 'desc' },
   });
 };
 

@@ -1,3 +1,4 @@
+import { check, validationResult } from 'express-validator';
 import {
   createNote,
   findAllNotes,
@@ -6,7 +7,19 @@ import {
   searchNotesInDb,
 } from '../models/Note.js';
 
+// Validação ao adicionar uma nota
+export const addNoteValidation = [
+  check('title').notEmpty().withMessage('Title is required'),
+  check('content').notEmpty().withMessage('Content is required'),
+];
+
 export const addNote = async (req, res) => {
+  //valida
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  // logica de criar nota
   const { title, content } = req.body;
   const userId = req.userId; // userId obtido pelo middleware de autenticação
 
@@ -14,7 +27,7 @@ export const addNote = async (req, res) => {
     const note = await createNote({ title, content, userId });
     res.status(201).json(note);
   } catch (error) {
-    res.status(400).json({ error: 'Error creating note' });
+    res.status(500).json({ error: 'Error creating note' });
   }
 };
 
@@ -44,7 +57,19 @@ export const searchNotes = async (req, res) => {
   }
 };
 
+//Validação ao editar uma nota
+export const updateNoteValidation = [
+  check('title').notEmpty().withMessage('Title is required'),
+  check('content').notEmpty().withMessage('Content is required'),
+];
+
 export const updateNote = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  //logica de editar nota
   const { id } = req.params;
   const { title, content } = req.body;
   const userId = req.userId; // userId obtido pelo middleware de autenticação
@@ -59,7 +84,7 @@ export const updateNote = async (req, res) => {
 
     res.status(200).json({ message: 'Note updated successfully', note });
   } catch (error) {
-    res.status(400).json({ error: 'Error updating note' });
+    res.status(500).json({ error: 'Error updating note' });
   }
 };
 
