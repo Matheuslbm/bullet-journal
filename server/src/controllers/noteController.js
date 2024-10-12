@@ -3,6 +3,7 @@ import {
   findAllNotes,
   updateNoteById,
   deleteNoteById,
+  searchNotesInDb,
 } from '../models/Note.js';
 
 export const addNote = async (req, res) => {
@@ -27,6 +28,19 @@ export const getNotes = async (req, res) => {
   } catch (error) {
     console.error('Error fetching notes:', error);
     res.status(500).json({ error: 'Error fetching notes' });
+  }
+};
+
+// Função para buscar notas
+export const searchNotes = async (req, res) => {
+  const { userId } = req.params;
+  const { searchTerm } = req.query;
+
+  try {
+    const notes = await searchNotesInDb(userId, searchTerm);
+    res.json(notes);
+  } catch (error) {
+    res.status(500).json({ error: 'Error searching notes' });
   }
 };
 
@@ -66,4 +80,3 @@ export const deleteNote = async (req, res) => {
     res.status(500).json({ error: 'Error deleting note' });
   }
 };
-

@@ -18,6 +18,29 @@ export const findAllNotes = async userId => {
   });
 };
 
+export const searchNotesInDb = async (userId, searchTerm) => {
+  return await prisma.note.findMany({
+    where: {
+      userId: Number.parseInt(userId),
+      OR: [
+        {
+          title: {
+            contains: searchTerm,
+            mode: 'insensitive', // torna a busca case-insensitive
+          },
+        },
+        {
+          content: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+      ],
+    },
+    orderBy: {date: 'desc'},
+  });
+};
+
 export const updateNoteById = async (id, data) => {
   return await prisma.note.update({
     where: {
