@@ -4,27 +4,38 @@ export const createNote = async data => {
   return await prisma.note.create({ data });
 };
 
-export const findAllNotes = async (userId) => {
+export const findAllNotes = async userId => {
   return await prisma.note.findMany({
     where: { userId: Number(userId) },
     select: {
-        date: true,
-        title: true,
-        content: true,
+      date: true,
+      title: true,
+      content: true,
     },
-    orderBy: { 
-        date: 'desc',
+    orderBy: {
+      date: 'desc',
     },
   });
 };
 
-export const updateNote = async (id, data) => {
+export const updateNoteById = async (id, data) => {
   return await prisma.note.update({
-    where: { id },
-    data,
+    where: {
+      id: Number(id),
+      userId: data.userId, //verifica se o usuário é o dono da nota
+    },
+    data: {
+      title: data.title,
+      content: data.content,
+    },
   });
 };
 
-export const deleteNote = async (id) => {
-  return await prisma.note.delete({ where: { id } });
+export const deleteNoteById = async (id, userId) => {
+  return await prisma.note.deleteMany({
+    where: {
+      id: Number(id),
+      userId: userId, // verifica se o usuário é o dono da nota
+    },
+  });
 };
