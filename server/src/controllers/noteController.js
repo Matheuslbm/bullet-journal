@@ -27,7 +27,8 @@ export const addNote = async (req, res) => {
     const note = await createNote({ title, content, userId });
     res.status(201).json(note);
   } catch (error) {
-    res.status(500).json({ error: 'Error creating note' });
+    console.error('Error creating note:', error.message);
+    res.status(500).json({ error: 'Internal server error. Please try again later.' });
   }
 };
 
@@ -84,7 +85,8 @@ export const updateNote = async (req, res) => {
 
     res.status(200).json({ message: 'Note updated successfully', note });
   } catch (error) {
-    res.status(500).json({ error: 'Error updating note' });
+    console.error('Error updating note:', error.message);
+    res.status(500).json({ error: 'Internal server error. Please try again later.' });
   }
 };
 
