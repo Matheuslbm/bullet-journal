@@ -36,7 +36,9 @@ const UserProfile = () => {
     formData.append('name', name);
     formData.append('email', email);
     if (password) formData.append('password', password); // só adicionar se estiver preenchido
-    if (file) formData.append('profileImage', file);
+    if (file) {
+      formData.append('profileImage', file);
+    }
 
     try {
       const response = await api.put('/auth/edit', formData, {
@@ -45,17 +47,24 @@ const UserProfile = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
+
       const { profileImage } = response.data.user;
-      setProfileImage(profileImage);
-      setIsModalOpen(false);
+      setProfileImage(profileImage); //Atualiza a img no front-end
+      setFile(null); // Limpa o arquivo após o envio
+      setIsModalOpen(false); // Fecha o modal
     } catch (err) {
       setError('Erro ao salvar as informações do usuário.');
     }
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    setFile(e.target.files[0]); //define novo arquivo
   };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setFile(null); // limpa o arquivo ao fechar modal
+  }
 
   return (
     <div className="flex flex-col items-center">
@@ -68,7 +77,7 @@ const UserProfile = () => {
       />
       <UserModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
         name={name}
         setName={setName}
         email={email}

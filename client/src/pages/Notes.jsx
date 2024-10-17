@@ -59,7 +59,7 @@ const Notes = () => {
             Authorization: `Bearer ${localStorage.getItem('token')}`, // envia o token jwt para a autenticação
           },
         });
-        setNotes([...notes, response.data]);
+        setNotes([response.data, ...notes]);
       } catch (err) {
         setError('Erro ao adicionar nota.');
       }
