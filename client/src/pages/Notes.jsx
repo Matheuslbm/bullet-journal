@@ -6,17 +6,25 @@ const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchNotes = async () => {
-      try {
-        const response = await api.get('/notes'); // obter notas
-        setNotes(response.data);
-      } catch (err) {
-        setError('Falha ao carregar notas.');
-      }
-    };
+  const fetchNotes = async () => {
+    try {
+      const response = await api.get('/notes', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // envia o token jwt para o autenticação
+        },
+      }); // obter notas
+      setNotes(response.data); // att o estado com as notas recebidas
+    } catch (err) {
+      console.error("erro ao buscar notas", err);
+      setError('Falha ao carregar notas.');
+    }
+  };
+
+  // useEffect para chamar fetchNotes apenas uma vez quando o componente for montado porque estava tendo infinitas requisiçoes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    useEffect(() => {
     fetchNotes();
-  });
+  }, []); // o array vazio garante que o useEffect rode apenas uma vez, apos a montagem do componente
 
   const handleAddNote = async () => {
     // Lógica para adicionar nota
