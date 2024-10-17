@@ -18,3 +18,4 @@ export const updateUserById = async (id, data) => {
 export const findUserById = async id => {
   return await prisma.user.findUnique({ where: { id } });
 };
+

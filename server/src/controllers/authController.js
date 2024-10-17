@@ -1,5 +1,10 @@
 import { check, validationResult } from 'express-validator';
-import { createUser, findUserByEmail, updateUserById, findUserById } from '../models/User.js';
+import {
+  createUser,
+  findUserByEmail,
+  updateUserById,
+  findUserById,
+} from '../models/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -38,12 +43,10 @@ export const register = async (req, res) => {
       expiresIn: '1h',
     });
 
-    res
-      .status(201)
-      .json({
-        token,
-        user: { id: user.id, name: user.name, email: user.email },
-      });
+    res.status(201).json({
+      token,
+      user: { id: user.id, name: user.name, email: user.email },
+    });
   } catch (error) {
     res.status(500).json({ error: 'Server error during registration' });
   }
@@ -88,11 +91,34 @@ export const login = async (req, res) => {
   }
 };
 
+export const profile = async (req, res) => {
+  
+  try {
+    const userId = req.userId; // Recuperado do middleware verifyToken
+    const user = await findUserById(userId); // Buscando o usuário no banco de dados
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado' });
+    }
+
+    res.json({
+      name: user.name,
+      email: user.email,
+      profileImage: user.profileImage,
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Erro ao carregar perfil do usuário' });
+  }
+};
+
 // validação para rota de edição
 export const updateProfileValidation = [
   check('email').optional().isEmail().withMessage('Valid email is required'),
   check('name').optional().notEmpty().withMessage('Name is required'),
-  check('password').optional().isLength({ min: 6}).withMessage('Password must be a least 6 characters long'),
+  check('password')
+    .optional()
+    .isLength({ min: 6 })
+    .withMessage('Password must be a least 6 characters long'),
 ];
 
 // Função para editar perfil de usuário
@@ -103,7 +129,6 @@ export const updateProfile = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  
   const { name, email, password } = req.body;
   const userId = req.userId;
   const file = req.file;
@@ -130,13 +155,18 @@ export const updateProfile = async (req, res) => {
 
     // se houver um arquivo de imagem, armazene-o no campo profileImage
     if (file) {
-      updatedData.profileImage = file.path; // onde armazena imagem
+      updatedData.profileImage = `/uploads/${file.filename}`; // onde armazena imagem
     }
 
     // atualiza o usuário no db
     const updatedUser = await updateUserById(userId, updatedData);
-
-    res.json({ message: 'Profile updated successfully', user: updatedUser });
+    res.json({
+      message: 'Profile updated successfully',
+      user: {
+        ...updatedUser,
+        profileImage: updatedData.profileImage || existingUser.profileImage, // Retorna o caminho da imagem
+      },
+    });
   } catch (error) {
     res.status(500).json({ error: 'Error updating profile' });
   }

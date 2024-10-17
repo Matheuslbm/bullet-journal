@@ -34,6 +34,7 @@ export const addNote = async (req, res) => {
 
 export const getNotes = async (req, res) => {
   const { userId } = req;
+  console.log('User Id:', userId)
 
   try {
     const notes = await findAllNotes(userId);

@@ -4,7 +4,6 @@ import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Notes from './pages/Notes.jsx';
-import Profile from './pages/Profile.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 
 function App() {
@@ -16,7 +15,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/notes" element={<Notes />} />
-        <Route path="/profile" element={<Profile />} />
 
         {/* Rota Protegida 
         <Route

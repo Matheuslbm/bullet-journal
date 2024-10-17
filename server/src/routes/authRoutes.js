@@ -5,7 +5,8 @@ import {
   registerValidation,
   loginValidation,
   updateProfile,
-  updateProfileValidation
+  updateProfileValidation,
+  profile
 } from '../controllers/authController.js';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 import multer from 'multer';
@@ -34,5 +35,6 @@ router.put(
   updateProfileValidation,
   updateProfile
 );
+router.get('/profile', authMiddleware, profile)
 
 export default router;

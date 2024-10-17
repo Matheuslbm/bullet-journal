@@ -1,83 +1,136 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '@/api/axios';
+import NoteModal from '@/components/NoteModal';
+import UserProfile from '@/components/UserProfile';
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [error, setError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentNote, setCurrentNote] = useState({ title: '', content: '' });
+  const [editingNoteId, setEditingNoteId] = useState(null);
 
   const fetchNotes = async () => {
     try {
       const response = await api.get('/notes', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // envia o token jwt para o autenticação
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // envia o token jwt para a autenticação
         },
-      }); // obter notas
-      setNotes(response.data); // att o estado com as notas recebidas
+      });
+      console.log('Resposta da API:', response.data)
+      setNotes(response.data);
     } catch (err) {
-      console.error("erro ao buscar notas", err);
+      console.error('erro ao buscar notas', err);
       setError('Falha ao carregar notas.');
     }
   };
 
-  // useEffect para chamar fetchNotes apenas uma vez quando o componente for montado porque estava tendo infinitas requisiçoes
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    useEffect(() => {
+  useEffect(() => {
     fetchNotes();
-  }, []); // o array vazio garante que o useEffect rode apenas uma vez, apos a montagem do componente
+  }, []);
 
-  const handleAddNote = async () => {
-    // Lógica para adicionar nota
-    const newNote = { title: 'Nova nota', content: 'Conteúdo da Nota' };
-    try {
-      const response = await api.post('/notes', newNote); // chama o backend para adicionar
-      setNotes([...notes, response.data]); // atualiza o estado com a nova nota
-    } catch (err) {
-      setError('Erro ao adicionar nota.');
-    }
+  const handleAddNote = () => {
+    setCurrentNote({ title: '', content: '' });
+    setEditingNoteId(null);
+    setIsModalOpen(true);
   };
 
-  const handleEditNote = async id => {
-    // Lógica para editar nota
-    const updatedNote = {title: 'Nota Atualizada', content: 'Conteúdo atualizado'}
-    try {
-      await api.put(`/notes/${id}`, updatedNote); // Edita a nota no backend
-      setNotes(notes.map(note => note.id === id ? {...note, ...updatedNote} : note)); // atualiza estado
-    } catch (err) {
-      setError('Erro ao editar nota.')
+  const handleSaveNote = async () => {
+    if (editingNoteId) {
+      try {
+        await api.put(`/notes/${editingNoteId}`, currentNote, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // envia o token jwt para a autenticação
+          },
+        });
+        setNotes(
+          notes.map(note =>
+            note.id === editingNoteId ? { ...note, ...currentNote } : note
+          )
+        );
+      } catch (err) {
+        setError('Erro ao editar nota.');
+      }
+    } else {
+      try {
+        const response = await api.post('/notes', currentNote, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // envia o token jwt para a autenticação
+          },
+        });
+        setNotes([...notes, response.data]);
+      } catch (err) {
+        setError('Erro ao adicionar nota.');
+      }
     }
+    setIsModalOpen(false);
+  };
+
+  const handleEditNote = id => {
+    console.log('editando nota com id:', id);
+    const note = notes.find(note => note.id === id);
+    setCurrentNote({ title: note.title, content: note.content });
+    setEditingNoteId(id);
+    setIsModalOpen(true);
   };
 
   const handleDeleteNote = async id => {
-    // Lógica para excluir nota
+    console.log('Deletando nota com id:', id);
     try {
-      await api.delete(`/notes/${id}`); // deleta a nota no backend
-      setNotes(notes.filter(note => note.id !== id)); // remove a nota do estado
+      await api.delete(`/notes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // envia o token jwt para a autenticação
+        },
+      });
+      setNotes(notes.filter(note => note.id !== id));
     } catch (err) {
-      setError('Erro ao deletar nota.')
+      setError('Erro ao deletar nota.');
     }
   };
 
   return (
+   
     <div className="p-4">
+       <UserProfile/>
       <h1 className="text-2xl">Suas Notas</h1>
       {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-      <button onClick={handleAddNote} className="">
+      <button
+        onClick={handleAddNote}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
         Adicionar Nota
       </button>
       {error && <p className="text-red-500">{error}</p>}
-      
-      {/* Renderização das notas */}
       {notes.map(note => (
         <div key={note.id}>
           <h3>{note.title}</h3>
           <p>{note.content}</p>
           {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-          <button onClick={() => handleEditNote(note.id)}>Editar</button>
+          <button
+            onClick={() => handleEditNote(note.id)}
+            className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
+          >
+            Editar
+          </button>
           {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-          <button onClick={() => handleDeleteNote(note.id)}>Excluir</button>
+          <button
+            onClick={() => handleDeleteNote(note.id)}
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Excluir
+          </button>
         </div>
       ))}
+      <NoteModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={currentNote.title}
+        setTitle={title => setCurrentNote({ ...currentNote, title })}
+        content={currentNote.content}
+        setContent={content => setCurrentNote({ ...currentNote, content })}
+        onSave={handleSaveNote}
+      />
     </div>
   );
 };

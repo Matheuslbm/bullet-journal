@@ -8,6 +8,7 @@ export const findAllNotes = async userId => {
   return await prisma.note.findMany({
     where: { userId: Number(userId) },
     select: {
+      id: true,
       date: true,
       title: true,
       content: true,
