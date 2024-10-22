@@ -5,10 +5,14 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Notes from './pages/Notes.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <Router>
+      {/*ToastContainer disponivel para todas as toas */}
+      <ToastContainer/>
       <Routes>
         {/* Rotas Públicas */}
         <Route path="/" element={<Home />} />

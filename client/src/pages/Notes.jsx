@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import api from '@/api/axios';
 import NoteModal from '@/components/NoteModal';
 import UserProfile from '@/components/UserProfile';
+import { toast } from 'react-toastify';
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
-  const [error, setError] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentNote, setCurrentNote] = useState({ title: '', content: '' });
   const [editingNoteId, setEditingNoteId] = useState(null);
@@ -27,7 +27,9 @@ const Notes = () => {
       setNotes(response.data);
     } catch (err) {
       console.error('erro ao buscar notas', err);
-      setError('Falha ao carregar notas.');
+      toast.error('Falha ao carregar notas.', {
+        className: 'bg-gray-800 text-white',
+      });
       setIsSearching(false);
     }
   };
@@ -40,7 +42,7 @@ const Notes = () => {
   const handleSearch = e => {
     const query = e.target.value;
     setSearchQuery(query);
-    
+
     if (query.trim() !== '') {
       fetchNotes(query);
     } else {
@@ -55,8 +57,14 @@ const Notes = () => {
   };
 
   const handleSaveNote = async () => {
-    if (editingNoteId) {
-      try {
+    if (!currentNote.title || !currentNote.content) {
+      toast.error('O título e o conteúdo são obrigatórios.', {
+        className: 'bg-gray-800 text-white',
+      });
+      return;
+    }
+    try {
+      if (editingNoteId) {
         await api.put(`/notes/${editingNoteId}`, currentNote, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`, // envia o token jwt para a autenticação
@@ -67,22 +75,23 @@ const Notes = () => {
             note.id === editingNoteId ? { ...note, ...currentNote } : note
           )
         );
-      } catch (err) {
-        setError('Erro ao editar nota.');
-      }
-    } else {
-      try {
+      } else {
         const response = await api.post('/notes', currentNote, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`, // envia o token jwt para a autenticação
           },
         });
         setNotes([response.data, ...notes]);
-      } catch (err) {
-        setError('Erro ao adicionar nota.');
       }
+      toast.success('Nota salva com sucesso!', {
+        className: 'bg-gray-800 text-white',
+      });
+      setIsModalOpen(false);
+    } catch (err) {
+      toast.error('Erro ao salvar a nota.', {
+        className: 'bg-gray-800 text-white',
+      });
     }
-    setIsModalOpen(false);
   };
 
   const handleEditNote = id => {
@@ -102,8 +111,13 @@ const Notes = () => {
         },
       });
       setNotes(notes.filter(note => note.id !== id));
+      toast.success('Nota deletada com sucesso!', {
+        className: 'bg-gray-800 text-white',
+      });
     } catch (err) {
-      setError('Erro ao deletar nota.');
+      toast.error('Erro ao deletar nota.', {
+        className: 'bg-gray-800 text-white',
+      });
     }
   };
 
@@ -114,11 +128,11 @@ const Notes = () => {
 
       {/*/ Campo de busca */}
       <input
-      type='text'
-      value={searchQuery}
-      onChange={handleSearch}
-      placeholder='Pesquisar notas...'
-      className='border rounded p-2  mb-9 me-8  '
+        type="text"
+        value={searchQuery}
+        onChange={handleSearch}
+        placeholder="Pesquisar notas..."
+        className="border rounded p-2  mb-9 me-8  "
       />
 
       {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
@@ -129,39 +143,35 @@ const Notes = () => {
         Adicionar Nota
       </button>
 
-      {error && <p className="text-red-500">{error}</p>}
+      
 
       {isSearching ? (
-        <p>
-          Carregando notas...
-        </p>
-      ): (
-        notes.length > 0 ? (
-          notes.map(note => (
-            <div key={note.id}>
-              <h3>{note.title}</h3>
-              <p>{note.content}</p>
-              {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-              <button
-                onClick={() => handleEditNote(note.id)}
-                className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
-              >
-                Editar
-              </button>
-              {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-              <button
-                onClick={() => handleDeleteNote(note.id)}
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Excluir
-              </button>
-            </div>
+        <p>Carregando notas...</p>
+      ) : notes.length > 0 ? (
+        notes.map(note => (
+          <div key={note.id}>
+            <h3>{note.title}</h3>
+            <p>{note.content}</p>
+            {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+            <button
+              onClick={() => handleEditNote(note.id)}
+              className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
+            >
+              Editar
+            </button>
+            {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+            <button
+              onClick={() => handleDeleteNote(note.id)}
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Excluir
+            </button>
+          </div>
         ))
       ) : (
         <p>Nenhuma nota encontrada.</p>
-      )
       )}
-      
+
       <NoteModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
