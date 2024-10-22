@@ -48,11 +48,11 @@ export const getNotes = async (req, res) => {
 
 // Função para buscar notas
 export const searchNotes = async (req, res) => {
-  const { userId } = req.params;
-  const { searchTerm } = req.query;
+  const { search } = req.query;
+  const userId = req.userId;
 
   try {
-    const notes = await searchNotesInDb(userId, searchTerm);
+    const notes = await searchNotesInDb(userId, search);
     res.json(notes);
   } catch (error) {
     res.status(500).json({ error: 'Error searching notes' });

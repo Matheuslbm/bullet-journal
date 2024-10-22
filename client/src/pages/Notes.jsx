@@ -9,19 +9,26 @@ const Notes = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentNote, setCurrentNote] = useState({ title: '', content: '' });
   const [editingNoteId, setEditingNoteId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
 
-  const fetchNotes = async () => {
+  const fetchNotes = async (query = '') => {
     try {
-      const response = await api.get('/notes', {
+      setIsSearching(true);
+      const response = await api.get('/notes/search', {
+        params: { search: query },
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // envia o token jwt para a autenticação
+          Authorization: `Bearer ${localStorage.getItem('token')}`, //token contem userId
         },
       });
-      console.log('Resposta da API:', response.data)
+      setNotes(response.data);
+      setIsSearching(false);
+      console.log('Resposta da API:', response.data);
       setNotes(response.data);
     } catch (err) {
       console.error('erro ao buscar notas', err);
       setError('Falha ao carregar notas.');
+      setIsSearching(false);
     }
   };
 
@@ -29,6 +36,17 @@ const Notes = () => {
   useEffect(() => {
     fetchNotes();
   }, []);
+
+  const handleSearch = e => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    
+    if (query.trim() !== '') {
+      fetchNotes(query);
+    } else {
+      fetchNotes();
+    }
+  };
 
   const handleAddNote = () => {
     setCurrentNote({ title: '', content: '' });
@@ -90,10 +108,19 @@ const Notes = () => {
   };
 
   return (
-   
     <div className="p-4">
-       <UserProfile/>
+      <UserProfile />
       <h1 className="text-2xl">Suas Notas</h1>
+
+      {/*/ Campo de busca */}
+      <input
+      type='text'
+      value={searchQuery}
+      onChange={handleSearch}
+      placeholder='Pesquisar notas...'
+      className='border rounded p-2  mb-9 me-8  '
+      />
+
       {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
       <button
         onClick={handleAddNote}
@@ -101,27 +128,40 @@ const Notes = () => {
       >
         Adicionar Nota
       </button>
+
       {error && <p className="text-red-500">{error}</p>}
-      {notes.map(note => (
-        <div key={note.id}>
-          <h3>{note.title}</h3>
-          <p>{note.content}</p>
-          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-          <button
-            onClick={() => handleEditNote(note.id)}
-            className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
-          >
-            Editar
-          </button>
-          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-          <button
-            onClick={() => handleDeleteNote(note.id)}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Excluir
-          </button>
-        </div>
-      ))}
+
+      {isSearching ? (
+        <p>
+          Carregando notas...
+        </p>
+      ): (
+        notes.length > 0 ? (
+          notes.map(note => (
+            <div key={note.id}>
+              <h3>{note.title}</h3>
+              <p>{note.content}</p>
+              {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+              <button
+                onClick={() => handleEditNote(note.id)}
+                className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
+              >
+                Editar
+              </button>
+              {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+              <button
+                onClick={() => handleDeleteNote(note.id)}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Excluir
+              </button>
+            </div>
+        ))
+      ) : (
+        <p>Nenhuma nota encontrada.</p>
+      )
+      )}
+      
       <NoteModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

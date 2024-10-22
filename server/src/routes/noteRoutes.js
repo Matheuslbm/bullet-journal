@@ -18,6 +18,6 @@ router.put('/:id', authMiddleware, updateNoteValidation, updateNote);
 router.delete('/:id', authMiddleware, deleteNote);
 
 // Rota para pesquisa de notas
-router.get('/search/:userId', authMiddleware, searchNotes);
+router.get('/search', authMiddleware, searchNotes);
 
 export default router;

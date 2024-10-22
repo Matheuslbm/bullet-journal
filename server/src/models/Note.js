@@ -19,24 +19,30 @@ export const findAllNotes = async userId => {
   });
 };
 
-export const searchNotesInDb = async (userId, searchTerm) => {
+export const searchNotesInDb = async (userId, search) => {
+  const searchFilter = search
+    ? {
+        OR: [
+          {
+            title: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            content: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      }
+    : {}; // se nao houver busca, nao adiciona nenhum filtro.
+
   return await prisma.note.findMany({
     where: {
       userId: Number.parseInt(userId),
-      OR: [
-        {
-          title: {
-            contains: searchTerm,
-            mode: 'insensitive', // torna a busca case-insensitive
-          },
-        },
-        {
-          content: {
-            contains: searchTerm,
-            mode: 'insensitive',
-          },
-        },
-      ],
+      ...searchFilter,
     },
     orderBy: { date: 'desc' },
   });
