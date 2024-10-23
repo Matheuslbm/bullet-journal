@@ -3,6 +3,7 @@ import api from '@/api/axios';
 import NoteModal from '@/components/NoteModal';
 import UserProfile from '@/components/UserProfile';
 import { toast } from 'react-toastify';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -143,29 +144,39 @@ const Notes = () => {
         Adicionar Nota
       </button>
 
-      
-
       {isSearching ? (
         <p>Carregando notas...</p>
       ) : notes.length > 0 ? (
         notes.map(note => (
-          <div key={note.id}>
-            <h3>{note.title}</h3>
-            <p>{note.content}</p>
-            {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button
-              onClick={() => handleEditNote(note.id)}
-              className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
-            >
-              Editar
-            </button>
-            {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button
-              onClick={() => handleDeleteNote(note.id)}
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Excluir
-            </button>
+          <div
+            key={note.id}
+            className="border border-gray-300 rounded p-4 mb-4"
+          >
+            <p className="text-sm text-gray-500 italic mb-2">
+              {new Date(note.date).toLocaleDateString()}
+            </p>
+            <h3 className="text-xl font-medium mb-2">{note.title}</h3>
+            <p className="text-base mb-4 border border-gray-300 rounded p-4 break-words whitespace-pre-wrap ">
+              {note.content}
+            </p>
+
+            <div className="flex space-x-2">
+              <button
+                type="button"
+                onClick={() => handleEditNote(note.id)}
+                className="bg-yellow-500 hover:bg-yellow-700 text-white  py-2 px-4 rounded flex items-center"
+              >
+                <FaEdit className="text-xl" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleDeleteNote(note.id)}
+                className="bg-red-500 hover:bg-red-700 text-white  py-2 px-4 rounded flex items-center"
+              >
+                <FaTrash className="" />
+              </button>
+            </div>
           </div>
         ))
       ) : (

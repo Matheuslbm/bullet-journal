@@ -11,16 +11,16 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <Router>
-      {/*ToastContainer disponivel para todas as toas */}
+      {/*ToastContainer disponivel para todas as rotas */}
       <ToastContainer/>
       <Routes>
         {/* Rotas Públicas */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/notes" element={<Notes />} />
+        
 
-        {/* Rota Protegida 
+        {/* Rota Protegida */}
         <Route
           path="/notes"
           element={
@@ -29,7 +29,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        */}
+        
       </Routes>
     </Router>
   );
