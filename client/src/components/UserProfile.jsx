@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import UserModal from '@/components/UserModal';
 import api from '@/api/axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +26,9 @@ const UserProfile = () => {
         setEmail(email);
         setProfileImage(profileImage);
       } catch (err) {
-        setError('Erro ao carregar perfil do usuário.');
+        toast.error('Falha no registro. Tente novamente.', {
+          className: 'bg-gray-800 text-white',
+        });
       }
     };
 
@@ -52,8 +56,13 @@ const UserProfile = () => {
       setProfileImage(profileImage); //Atualiza a img no front-end
       setFile(null); // Limpa o arquivo após o envio
       setIsModalOpen(false); // Fecha o modal
+      toast.success('Suas informaçoes de usuário foram alteradas com sucesso!', {
+        className: 'bg-gray-800 text-white',
+      })
     } catch (err) {
-      setError('Erro ao salvar as informações do usuário.');
+      toast.error('Falha no registro. Tente novamente.', {
+        className: 'bg-gray-800 text-white',
+      });
     }
   };
 
@@ -70,9 +79,9 @@ const UserProfile = () => {
     <div className="flex flex-col items-center">
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 <img
-        src={profileImage ? `http://localhost:5000${profileImage}` : 'URL_DA_IMAGEM_PADRAO'}
+        src={profileImage ? `http://localhost:5000${profileImage}` : 'http://localhost:5000/uploads/user-avatar_8210743.png'}
         alt="User"
-        className="w-40 h-40 rounded-full cursor-pointer"
+        className="w-20 h-20 rounded-full cursor-pointer"
         onClick={() => setIsModalOpen(true)}
       />
       <UserModal
@@ -87,7 +96,7 @@ const UserProfile = () => {
         onSave={handleSaveUser}
         onFileChange={handleFileChange}
       />
-      {error && <p className="text-red-500">{error}</p>}
+      
     </div>
   );
 };

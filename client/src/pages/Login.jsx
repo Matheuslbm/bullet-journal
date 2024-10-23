@@ -2,21 +2,25 @@ import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '@/api/axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-        const response = await api.post('/auth/login', {email, password});
-        localStorage.setItem('token', response.data.token); // salva o token
-        navigate('/notes');
+      const response = await api.post('/auth/login', { email, password });
+      localStorage.setItem('token', response.data.token); // salva o token
+
+      navigate('/notes');
     } catch (err) {
-        setError('Login falhou. Verifique suas credenciais.')
+      toast.error('Login falhou. Verifique suas credenciais.', {
+        className: 'bg-gray-800 text-white', // Estilização com Tailwind
+      });
     }
   };
 
@@ -43,7 +47,7 @@ const Login = () => {
             required
           />
         </div>
-        {error && <p className='text-red-500'>{error}</p>}
+        
         <button
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
