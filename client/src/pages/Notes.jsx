@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import api from '@/api/axios';
 import NoteModal from '@/components/NoteModal';
-import UserProfile from '@/components/UserProfile';
+
 import { toast } from 'react-toastify';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import NavNotes from '@/components/NavNotes';
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -123,8 +124,8 @@ const Notes = () => {
   };
 
   return (
-    <div className="p-4">
-      <UserProfile />
+    <div className="p-4 pt-28">
+      <NavNotes />
       <h1 className="text-2xl">Suas Notas</h1>
 
       {/*/ Campo de busca */}

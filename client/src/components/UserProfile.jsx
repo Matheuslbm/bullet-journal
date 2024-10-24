@@ -4,7 +4,7 @@ import api from '@/api/axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { FaPowerOff } from 'react-icons/fa';
+
 
 const UserProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,10 +80,7 @@ const UserProfile = () => {
     setFile(null); // limpa o arquivo ao fechar modal
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
-  };
+  
 
   return (
     <div className="flex flex-col items-center">
@@ -95,7 +92,7 @@ const UserProfile = () => {
             setIsModalOpen(true);
           }
         }}
-        className="w-14 h-14 rounded-full cursor-pointer"
+        className="w-20 h-20 rounded-full cursor-pointer"
       >
         <img
           src={
@@ -120,9 +117,7 @@ const UserProfile = () => {
         onFileChange={handleFileChange}
       />
 
-      <button type="button" onClick={handleLogout} className="cursor-pointer">
-        <FaPowerOff className="w-5 h-5 mt-3 text-red-500"/>
-      </button>
+      
     </div>
   );
 };

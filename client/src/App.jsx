@@ -7,12 +7,14 @@ import Notes from './pages/Notes.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ScrollToTop from './components/ScrollToTop.jsx';
 
 function App() {
   return (
     <Router>
       {/*ToastContainer disponivel para todas as rotas */}
       <ToastContainer/>
+      <ScrollToTop/>
       <Routes>
         {/* Rotas Públicas */}
         <Route path="/" element={<Home />} />
