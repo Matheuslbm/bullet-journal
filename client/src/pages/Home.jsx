@@ -44,7 +44,7 @@ const Home = () => {
         {/** Imagem ao lado do texto */}
         <div className="flex justify-center lg:justify-end w-full lg:w-1/2">
           <img 
-          src="/public/menina.png" 
+          src="/menina.png" 
           alt="mulher sorrindo apontando para cima" 
           className="w-3/4 md:w-[600px] lg:w-[900px]"
            />
