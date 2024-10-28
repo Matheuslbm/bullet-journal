@@ -92,7 +92,7 @@ const UserProfile = () => {
             setIsModalOpen(true);
           }
         }}
-        className="w-20 h-20 rounded-full cursor-pointer"
+        className="w-20 h-20 rounded-full overflow-hidden cursor-pointer"
       >
         <img
           src={
@@ -101,7 +101,7 @@ const UserProfile = () => {
               : 'http://localhost:5000/uploads/user-avatar_8210743.png'
           }
           alt="User"
-          className="w-full h-full rounded-full"
+          className="w-full h-full object-cover object-center"
         />
       </button>
       <UserModal

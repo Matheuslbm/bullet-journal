@@ -18,8 +18,8 @@ const Login = () => {
 
       navigate('/notes');
     } catch (err) {
-      toast.error('Login falhou. Verifique suas credenciais.', {
-        className: 'bg-gray-800 text-white', // Estilização com Tailwind
+      toast.error('Login failed. Please check your credentials.', {
+        className: 'bg-amber-400 text-stone-700', // Estilização com Tailwind
       });
     }
   };
@@ -47,7 +47,7 @@ const Login = () => {
           onSubmit={handleSubmit}
           className= 'p-8  w-full max-w-md lg:max-w-lg'
         >
-          <h2 className="text-3xl lg:text-6xl font-bold mb-4 text-center">
+          <h2 className="text-3xl lg:text-6xl font-bold mb-4 text-center text-stone-700">
             Sign in
           </h2>
           <p className=' text-center text-stone-500 mb-10'>Welcome back! Please enter your details</p>
@@ -79,7 +79,7 @@ const Login = () => {
           {/* Botão de Login */}
           <button
             type="submit"
-            className="w-full bg-[#bdaffc] hover:bg-[#a1c1e4] text-white font-light py-3.5 px-4 mt-3 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#bdaffc]"
+            className="w-full bg-[#bdaffc] hover:bg-[#a1c1e4] text-stone-700 font-light py-3.5 px-4 mt-3 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#bdaffc]"
           >
             Sign in
           </button>
