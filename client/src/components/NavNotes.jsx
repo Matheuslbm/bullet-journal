@@ -2,7 +2,7 @@ import React from 'react';
 import UserProfile from '@/components/UserProfile';
 import { FaPowerOff } from 'react-icons/fa';
 
-const NavNotes = () => {
+const NavNotes = ({searchQuery, handleSearch}) => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/');
@@ -17,6 +17,15 @@ const NavNotes = () => {
           alt="Logo"
           className="w-32 lg:w-40"
         />
+
+         {/* Input de busca */}
+         <input
+         type='text'
+         value={searchQuery}
+         onChange={handleSearch}
+         placeholder='Pesquisar'
+         className='border rounded p-2 py-4 ml-auto mr-6 w-80 bg-stone-600 text-white'
+         />
 
         {/* UserProfile */}
         <div className="flex items-center space-x-4 ml-auto">

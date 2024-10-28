@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '@/api/axios';
 import NoteModal from '@/components/NoteModal';
-
 import { toast } from 'react-toastify';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import NavNotes from '@/components/NavNotes';
@@ -13,6 +12,19 @@ const Notes = () => {
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1800);
+
+  //Função para monitorar a largura da tela
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1800);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const fetchNotes = async (query = '') => {
     try {
@@ -29,7 +41,7 @@ const Notes = () => {
       setNotes(response.data);
     } catch (err) {
       console.error('erro ao buscar notas', err);
-      toast.error('Falha ao carregar notas.', {
+      toast.error('Failed to load notes.', {
         className: 'bg-gray-800 text-white',
       });
       setIsSearching(false);
@@ -60,7 +72,7 @@ const Notes = () => {
 
   const handleSaveNote = async () => {
     if (!currentNote.title || !currentNote.content) {
-      toast.error('O título e o conteúdo são obrigatórios.', {
+      toast.error('Title and content are required.', {
         className: 'bg-gray-800 text-white',
       });
       return;
@@ -85,12 +97,12 @@ const Notes = () => {
         });
         setNotes([response.data, ...notes]);
       }
-      toast.success('Nota salva com sucesso!', {
+      toast.success('Note saved successfully!', {
         className: 'bg-gray-800 text-white',
       });
       setIsModalOpen(false);
     } catch (err) {
-      toast.error('Erro ao salvar a nota.', {
+      toast.error('Error saving note.', {
         className: 'bg-gray-800 text-white',
       });
     }
@@ -113,43 +125,39 @@ const Notes = () => {
         },
       });
       setNotes(notes.filter(note => note.id !== id));
-      toast.success('Nota deletada com sucesso!', {
+      toast.success('Note deleted successfully!', {
         className: 'bg-gray-800 text-white',
       });
     } catch (err) {
-      toast.error('Erro ao deletar nota.', {
+      toast.error('Error deleting note.', {
         className: 'bg-gray-800 text-white',
       });
     }
   };
 
   return (
-    <div className="p-4 pt-28 bg-stone-900 min-h-screen">
-      <NavNotes />
-      <h1 className="text-2xl text-white mb-6">Suas Notas</h1>
+    <div className="p-10 pt-28 bg-stone-900 min-h-screen">
+      {/* enviando o handleSearch e o searchQuery para o NavNotes como props */}
+      <NavNotes searchQuery={searchQuery} handleSearch={handleSearch} />
+      <h1 className=" text-center text-3xl text-white mb-6 mt-4 font-light">Welcome, how was your day today? Did you achieve your goals?</h1>
 
-      {/*/ Campo de busca */}
-      <div className='flex items-center gap-4 mb-6'>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearch}
-          placeholder="Pesquisar notas..."
-          className="border rounded p-2 py-4 "
-        />
+      <hr className="border-gray-500 w-2/3 mx-auto my-4" />
+      
+      <div className="flex items-center gap-4 mb-6 w-full justify-center mx-auto">
+       
         {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
         <button
           onClick={handleAddNote}
-          className="bg-amber-400 hover:bg-amber-500 text-stone-700 font-semibold py-4 px-4 rounded"
+          className="bg-amber-400 hover:bg-amber-500 text-stone-700 font-semibold py-4 px-28 rounded"
         >
-          Adicionar Nota
+          New feedback
         </button>
       </div>
 
       {isSearching ? (
-        <p className='text-white'>Carregando notas...</p>
+        <p className="text-white">loading notes...</p>
       ) : notes.length > 0 ? (
-        <div className='grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {notes.map(note => (
             <div
               key={note.id}
@@ -158,10 +166,32 @@ const Notes = () => {
               <p className="text-sm text-gray-500 italic mb-2">
                 {new Date(note.date).toLocaleDateString()}
               </p>
-              <h3 className="text-xl font-medium mb-2 text-white">{note.title}</h3>
-              <p className="text-base mb-4 p-4 break-words whitespace-pre-wrap text-white">
+              <h3 className="text-xl font-medium mb-2 text-white">
+                {note.title}
+              </h3>
+
+              {/* Conteudo */}
+              <p className="text-base mb-4 break-words whitespace-pre-wrap text-white max-h-80 overflow-hidden">
                 {note.content}
               </p>
+
+              {/* Botão para abrir o modal com o conteúdo completo */}
+              {(note.content.length > 900 || isMobile) && (
+                <button
+                  type="button"
+                  className="text-amber-400  text-sm mb-4"
+                  onClick={() => {
+                    setCurrentNote({
+                      title: note.title,
+                      content: note.content,
+                    });
+                    setIsModalOpen(true);
+                  }}
+                >
+                  Read more...
+                </button>
+              )}
+
               <div className="flex space-x-2">
                 <button
                   type="button"
@@ -182,7 +212,7 @@ const Notes = () => {
           ))}
         </div>
       ) : (
-        <p className='text-white'>Nenhuma nota encontrada.</p>
+        <p className="text-white">No notes found.</p>
       )}
 
       <NoteModal
