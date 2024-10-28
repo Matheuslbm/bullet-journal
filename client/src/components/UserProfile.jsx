@@ -115,6 +115,7 @@ const UserProfile = () => {
         setPassword={setPassword}
         onSave={handleSaveUser}
         onFileChange={handleFileChange}
+        profileImage={profileImage}
       />
 
       

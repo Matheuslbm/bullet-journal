@@ -5,7 +5,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 
 const UserModal = ({
@@ -19,53 +18,65 @@ const UserModal = ({
   setPassword,
   onSave,
   onFileChange,
+  profileImage,
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className='bg-stone-900 text-white'>
         <DialogHeader>
-          <DialogTitle>Editar Usuário</DialogTitle>
+          <DialogTitle>Profile</DialogTitle>
           <DialogDescription>
             <input
               type="text"
-              placeholder="Nome"
+              placeholder="Name"
               value={name}
               onChange={e => setName(e.target.value)}
-              className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-2"
+              className="bg-stone-600 border border-gray-700 text-white text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5 mb-2 mt-4"
             />
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-2"
+              className="bg-stone-600 border border-gray-700 text-white text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5 mb-2"
             />
             <input
               type="password"
-              placeholder="Senha"
+              placeholder="Password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-2"
+              className="bg-stone-600 border border-gray-700 text-white text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5 mb-2"
             />
             <input
               type="file"
               onChange={onFileChange}
-              className="block w-full text-sm text-gray-900 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer mb-2"
+              className="block w-full text-sm text-white bg-stone-600 border border-gray-700 rounded-lg cursor-pointer mb-2 py-2"
             />
+             {/* Visualização da imagem do usuário em tamanho maior */}
+             {profileImage && (
+              <div className="flex justify-center my-4">
+                <img
+                  src={`http://localhost:5000${profileImage}`}
+                  alt="User profile"
+                  className="mt-8 w-48 h-48 object-cover rounded-full border border-gray-600"
+                />
+              </div>
+            )}
+
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-end mt-4">
           {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button
             onClick={onClose}
-            className="mr-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+            className="mr-2 bg-red-500 hover:bg-red-700 text-stone-800 font-bold py-2 px-4 rounded"
           >
             Cancelar
           </button>
           {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button
             onClick={onSave}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-amber-400 hover:bg-amber-500 text-stone-800 font-bold py-2 px-4 rounded"
           >
             Salvar
           </button>

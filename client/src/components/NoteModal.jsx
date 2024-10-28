@@ -5,7 +5,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 
 const NoteModal = ({
@@ -19,22 +18,22 @@ const NoteModal = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className='bg-stone-900 text-white'>
         <DialogHeader>
-          <DialogTitle>Adicionar Nota</DialogTitle>
+          <DialogTitle>How was your day?</DialogTitle>
           <DialogDescription>
             <input
               type="text"
-              placeholder="Título"
+              placeholder="Title"
               value={title}
               onChange={e => setTitle(e.target.value)}
-              className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-2"
+              className="bg-stone-600 border border-gray-700 text-white text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5 mb-2 mt-5"
             />
             <textarea
-              placeholder="Conteúdo"
+              placeholder="Have you achieved any goals?"
               value={content}
               onChange={e => setContent(e.target.value)}
-              className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-2"
+              className="bg-stone-600 border border-gray-700 text-white text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5 mb-2 h-[700px]"
             />
           </DialogDescription>
         </DialogHeader>
@@ -42,14 +41,14 @@ const NoteModal = ({
           {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button
             onClick={onClose}
-            className="mr-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+            className="mr-2 bg-red-500 hover:bg-red-700 text-stone-800 font-bold py-2 px-4 rounded"
           >
             Cancelar
           </button>
           {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button
             onClick={onSave}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-amber-400 hover:bg-amber-500 text-stone-800 font-bold py-2 px-4 rounded"
           >
             Salvar
           </button>
