@@ -1,8 +1,11 @@
 import React from 'react';
 import UserProfile from '@/components/UserProfile';
 import { FaPowerOff } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const NavNotes = ({searchQuery, handleSearch}) => {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/');
