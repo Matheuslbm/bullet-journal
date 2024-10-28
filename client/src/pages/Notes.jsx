@@ -124,64 +124,65 @@ const Notes = () => {
   };
 
   return (
-    <div className="p-4 pt-28">
+    <div className="p-4 pt-28 bg-stone-900 min-h-screen">
       <NavNotes />
-      <h1 className="text-2xl">Suas Notas</h1>
+      <h1 className="text-2xl text-white mb-6">Suas Notas</h1>
 
       {/*/ Campo de busca */}
-      <input
-        type="text"
-        value={searchQuery}
-        onChange={handleSearch}
-        placeholder="Pesquisar notas..."
-        className="border rounded p-2  mb-9 me-8  "
-      />
-
-      {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-      <button
-        onClick={handleAddNote}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Adicionar Nota
-      </button>
+      <div className='flex items-center gap-4 mb-6'>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearch}
+          placeholder="Pesquisar notas..."
+          className="border rounded p-2 py-4 "
+        />
+        {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+        <button
+          onClick={handleAddNote}
+          className="bg-amber-400 hover:bg-amber-500 text-stone-700 font-semibold py-4 px-4 rounded"
+        >
+          Adicionar Nota
+        </button>
+      </div>
 
       {isSearching ? (
-        <p>Carregando notas...</p>
+        <p className='text-white'>Carregando notas...</p>
       ) : notes.length > 0 ? (
-        notes.map(note => (
-          <div
-            key={note.id}
-            className="border border-gray-300 rounded p-4 mb-4"
-          >
-            <p className="text-sm text-gray-500 italic mb-2">
-              {new Date(note.date).toLocaleDateString()}
-            </p>
-            <h3 className="text-xl font-medium mb-2">{note.title}</h3>
-            <p className="text-base mb-4 border border-gray-300 rounded p-4 break-words whitespace-pre-wrap ">
-              {note.content}
-            </p>
-
-            <div className="flex space-x-2">
-              <button
-                type="button"
-                onClick={() => handleEditNote(note.id)}
-                className="bg-yellow-500 hover:bg-yellow-700 text-white  py-2 px-4 rounded flex items-center"
-              >
-                <FaEdit className="text-xl" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleDeleteNote(note.id)}
-                className="bg-red-500 hover:bg-red-700 text-white  py-2 px-4 rounded flex items-center"
-              >
-                <FaTrash className="" />
-              </button>
+        <div className='grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+          {notes.map(note => (
+            <div
+              key={note.id}
+              className="border border-gray-300 rounded p-4 bg-stone-800 shadow-lg"
+            >
+              <p className="text-sm text-gray-500 italic mb-2">
+                {new Date(note.date).toLocaleDateString()}
+              </p>
+              <h3 className="text-xl font-medium mb-2 text-white">{note.title}</h3>
+              <p className="text-base mb-4 p-4 break-words whitespace-pre-wrap text-white">
+                {note.content}
+              </p>
+              <div className="flex space-x-2">
+                <button
+                  type="button"
+                  onClick={() => handleEditNote(note.id)}
+                  className="text-amber-500 hover:text-amber-700  py-2 px-1 "
+                >
+                  <FaEdit className="text-xl" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteNote(note.id)}
+                  className="text-red-500 hover:text-red-700 py-2 px-1"
+                >
+                  <FaTrash className="" />
+                </button>
+              </div>
             </div>
-          </div>
-        ))
+          ))}
+        </div>
       ) : (
-        <p>Nenhuma nota encontrada.</p>
+        <p className='text-white'>Nenhuma nota encontrada.</p>
       )}
 
       <NoteModal
