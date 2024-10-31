@@ -22,7 +22,7 @@ const UserModal = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className='bg-stone-900 text-white'>
+      <DialogContent className='bg-stone-900 text-white rounded-lg'>
         <DialogHeader>
           <DialogTitle>Profile</DialogTitle>
           <DialogDescription>

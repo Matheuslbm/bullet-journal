@@ -18,7 +18,13 @@ const NoteModal = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className='bg-stone-900 text-white'>
+      <DialogContent 
+      className='bg-stone-900 text-white max-w-lg md:max-w-2xl lg:max-w-3xl w-full rounded-lg '
+      style={{
+        maxHeight: '90vh', // Limite de altura
+        overflowY: 'auto', // Scroll interno
+      }}
+      >
         <DialogHeader>
           <DialogTitle>How was your day?</DialogTitle>
           <DialogDescription>
@@ -33,7 +39,7 @@ const NoteModal = ({
               placeholder="Have you achieved any goals?"
               value={content}
               onChange={e => setContent(e.target.value)}
-              className="bg-stone-600 border border-gray-700 text-white text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5 mb-2 h-[700px]"
+              className="bg-stone-600 border border-gray-700 text-white text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5 mb-2 h-[500px] md:h-[700px]"
             />
           </DialogDescription>
         </DialogHeader>
