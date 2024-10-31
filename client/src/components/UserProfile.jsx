@@ -28,8 +28,8 @@ const UserProfile = () => {
         setEmail(email);
         setProfileImage(profileImage);
       } catch (err) {
-        toast.error('Falha no registro. Tente novamente.', {
-          className: 'bg-gray-800 text-white',
+        toast.error('Registration failed. Please try again.', {
+          className: 'bg-amber-400 text-stone-700',
         });
       }
     };
@@ -59,14 +59,14 @@ const UserProfile = () => {
       setFile(null); // Limpa o arquivo após o envio
       setIsModalOpen(false); // Fecha o modal
       toast.success(
-        'Suas informaçoes de usuário foram alteradas com sucesso!',
+        'Your user information has been changed successfully!',
         {
-          className: 'bg-gray-800 text-white',
+          className: 'bg-amber-400 text-stone-700',
         }
       );
     } catch (err) {
-      toast.error('Falha no registro. Tente novamente.', {
-        className: 'bg-gray-800 text-white',
+      toast.error('Registration failed. Please try again.', {
+        className: 'bg-amber-400 text-stone-700',
       });
     }
   };

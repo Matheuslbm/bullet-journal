@@ -26,7 +26,7 @@ const NavNotes = ({searchQuery, handleSearch}) => {
          type='text'
          value={searchQuery}
          onChange={handleSearch}
-         placeholder='Pesquisar'
+         placeholder='Search'
          className='border rounded p-2 py-4 ml-auto mr-6 w-80 bg-stone-600 text-white'
          />
 
