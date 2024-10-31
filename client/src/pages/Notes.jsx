@@ -139,16 +139,17 @@ const Notes = () => {
     <div className="p-10 pt-28 bg-stone-900 min-h-screen">
       {/* enviando o handleSearch e o searchQuery para o NavNotes como props */}
       <NavNotes searchQuery={searchQuery} handleSearch={handleSearch} />
-      <h1 className=" text-center text-3xl text-white mb-6 mt-4 font-light">Welcome, how was your day today? Did you achieve your goals?</h1>
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="text-center text-3xl text-white  mt-4 font-light">
+          Welcome, how was your day today? Did you achieve your goals?
+        </h1>
+        <img src="/caneta3.png" alt="caneta" className="w-24 mt-4" />
+        <hr className="border-gray-500 w-2/3 mx-auto my-4" />
 
-      <hr className="border-gray-500 w-2/3 mx-auto my-4" />
-      
-      <div className="flex items-center gap-4 mb-6 w-full justify-center mx-auto">
-       
         {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
         <button
           onClick={handleAddNote}
-          className="bg-amber-400 hover:bg-amber-500 text-stone-700 font-semibold py-4 px-28 rounded"
+          className="bg-amber-400 hover:bg-amber-500 text-stone-700 font-semibold py-4 px-28 rounded mb-6"
         >
           New feedback
         </button>
@@ -159,53 +160,60 @@ const Notes = () => {
       ) : notes.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {notes.map(note => (
+            // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
             <div
               key={note.id}
-              className="border border-gray-300 rounded p-4 bg-stone-800 shadow-lg"
+              className="border border-gray-300 rounded p-4 shadow-lg flex flex-col justify-between h-full cursor-pointer" // Ajustes aqui
+              onClick={() => handleEditNote(note.id)}
             >
-              <p className="text-sm text-gray-500 italic mb-2">
-                {new Date(note.date).toLocaleDateString()}
-              </p>
-              <h3 className="text-xl font-medium mb-2 text-white">
-                {note.title}
-              </h3>
+              <div>
+                <p className="text-sm text-gray-500 italic mb-2">
+                  {new Date(note.date).toLocaleDateString()}
+                </p>
+                <h3 className="text-xl font-medium mb-2 text-white">
+                  {note.title}
+                </h3>
 
-              {/* Conteudo */}
-              <p className="text-base mb-4 break-words whitespace-pre-wrap text-white max-h-80 overflow-hidden">
-                {note.content}
-              </p>
+                {/* Conteúdo */}
+                <p className="text-base mb-4 break-words whitespace-pre-wrap text-white max-h-80 overflow-hidden">
+                  {note.content}
+                </p>
 
-              {/* Botão para abrir o modal com o conteúdo completo */}
-              {(note.content.length > 900 || isMobile) && (
-                <button
-                  type="button"
-                  className="text-amber-400  text-sm mb-4"
-                  onClick={() => {
-                    setCurrentNote({
-                      title: note.title,
-                      content: note.content,
-                    });
-                    setIsModalOpen(true);
-                  }}
-                >
-                  Read more...
-                </button>
-              )}
+                {/* Botão para abrir o modal com o conteúdo completo */}
+                {(note.content.length > 900 || isMobile) && (
+                  <button
+                    type="button"
+                    className="text-amber-400 text-sm mb-4"
+                    onClick={() => {
+                      setCurrentNote({
+                        title: note.title,
+                        content: note.content,
+                      });
+                      setIsModalOpen(true);
+                    }}
+                  >
+                    Read more...
+                  </button>
+                )}
+              </div>
 
+              {/* Div para os botões de editar e excluir */}
               <div className="flex space-x-2">
                 <button
                   type="button"
                   onClick={() => handleEditNote(note.id)}
-                  className="text-amber-500 hover:text-amber-700  py-2 px-1 "
+                  className="text-amber-500 hover:text-amber-700 py-2 px-1"
                 >
                   <FaEdit className="text-xl" />
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleDeleteNote(note.id)}
+                  onClick={e => {
+                    e.stopPropagation();
+                    handleDeleteNote(note.id)}}
                   className="text-red-500 hover:text-red-700 py-2 px-1"
                 >
-                  <FaTrash/>
+                  <FaTrash />
                 </button>
               </div>
             </div>
@@ -213,10 +221,10 @@ const Notes = () => {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center">
-          <img 
-          src="/ilustration.png" 
-          alt="Imagem central, sem notas." 
-          className='w-[600px] mt-36 object-contain opacity-70'
+          <img
+            src="/ilustration.png"
+            alt="Imagem central, sem notas."
+            className="w-[600px] mt-36 object-contain opacity-70"
           />
         </div>
       )}
