@@ -210,7 +210,8 @@ const Notes = () => {
                   type="button"
                   onClick={e => {
                     e.stopPropagation();
-                    handleDeleteNote(note.id)}}
+                    handleDeleteNote(note.id);
+                  }}
                   className="text-red-500 hover:text-red-700 py-2 px-1"
                 >
                   <FaTrash />

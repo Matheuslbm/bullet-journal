@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -20,9 +20,17 @@ const UserModal = ({
   onFileChange,
   profileImage,
 }) => {
+  const [fileName, setFileName] = useState('');
+
+  const handleFileChange = e => {
+    const file = e.target.files[0];
+    setFileName(file ? file.name : '');
+    onFileChange(e);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className='bg-stone-900 text-white rounded-lg'>
+      <DialogContent className="bg-stone-900 text-white rounded-lg">
         <DialogHeader>
           <DialogTitle>Profile</DialogTitle>
           <DialogDescription>
@@ -47,13 +55,22 @@ const UserModal = ({
               onChange={e => setPassword(e.target.value)}
               className="bg-stone-600 border border-gray-700 text-white text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5 mb-2"
             />
-            <input
-              type="file"
-              onChange={onFileChange}
-              className="block w-full text-sm text-white bg-stone-600 border border-gray-700 rounded-lg cursor-pointer mb-2 py-2"
-            />
-             {/* Visualização da imagem do usuário em tamanho maior */}
-             {profileImage && (
+            <div className="block w-full text-sm mb-2">
+              <input
+                type="file"
+                onChange={handleFileChange}
+                className="hidden"
+                id="file-upload"
+              />
+              <label
+                htmlFor="file-upload"
+                className="block text-black font-medium bg-amber-400 border hover:bg-amber-600 border-gray-700 rounded-lg cursor-pointer py-2 text-center"
+              >
+                {fileName || 'Choose File'}
+              </label>
+            </div>
+            {/* Visualização da imagem do usuário em tamanho maior */}
+            {profileImage && (
               <div className="flex justify-center my-4">
                 <img
                   src={`http://localhost:5000${profileImage}`}
@@ -62,7 +79,6 @@ const UserModal = ({
                 />
               </div>
             )}
-
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-end mt-4">
@@ -71,14 +87,14 @@ const UserModal = ({
             onClick={onClose}
             className="mr-2 bg-red-500 hover:bg-red-700 text-stone-800 font-bold py-2 px-4 rounded"
           >
-            Cancelar
+            Cancel
           </button>
           {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button
             onClick={onSave}
             className="bg-amber-400 hover:bg-amber-500 text-stone-800 font-bold py-2 px-4 rounded"
           >
-            Salvar
+            Save
           </button>
         </div>
       </DialogContent>

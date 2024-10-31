@@ -3,7 +3,7 @@ import UserProfile from '@/components/UserProfile';
 import { FaPowerOff } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-const NavNotes = ({searchQuery, handleSearch}) => {
+const NavNotes = ({ searchQuery, handleSearch }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -21,14 +21,14 @@ const NavNotes = ({searchQuery, handleSearch}) => {
           className="w-24 lg:w-40"
         />
 
-         {/* Input de busca */}
-         <input
-         type='text'
-         value={searchQuery}
-         onChange={handleSearch}
-         placeholder='Search'
-         className='border rounded p-1 lg:p-2 lg:py-4 ml-auto mr-6 w-28 lg:w-80 bg-stone-600 text-white'
-         />
+        {/* Input de busca */}
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearch}
+          placeholder="Search"
+          className="border rounded p-1 lg:p-2 lg:py-4 ml-auto mr-6 w-28 lg:w-80 bg-stone-600 text-white"
+        />
 
         {/* UserProfile */}
         <div className="flex items-center space-x-4 ml-auto">
