@@ -205,14 +205,20 @@ const Notes = () => {
                   onClick={() => handleDeleteNote(note.id)}
                   className="text-red-500 hover:text-red-700 py-2 px-1"
                 >
-                  <FaTrash className="" />
+                  <FaTrash/>
                 </button>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-white">No notes found.</p>
+        <div className="flex flex-col items-center justify-center">
+          <img 
+          src="/ilustration.png" 
+          alt="Imagem central, sem notas." 
+          className='w-[600px] mt-36 object-contain opacity-70'
+          />
+        </div>
       )}
 
       <NoteModal
