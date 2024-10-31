@@ -18,7 +18,7 @@ const NavNotes = ({searchQuery, handleSearch}) => {
         <img
           src="/logo-removebg-preview.png"
           alt="Logo"
-          className="w-32 lg:w-40"
+          className="w-24 lg:w-40"
         />
 
          {/* Input de busca */}
@@ -27,7 +27,7 @@ const NavNotes = ({searchQuery, handleSearch}) => {
          value={searchQuery}
          onChange={handleSearch}
          placeholder='Search'
-         className='border rounded p-2 py-4 ml-auto mr-6 w-80 bg-stone-600 text-white'
+         className='border rounded p-1 lg:p-2 lg:py-4 ml-auto mr-6 w-28 lg:w-80 bg-stone-600 text-white'
          />
 
         {/* UserProfile */}
