@@ -42,7 +42,7 @@ const Notes = () => {
     } catch (err) {
       console.error('erro ao buscar notas', err);
       toast.error('Failed to load notes.', {
-        className: 'bg-gray-800 text-white',
+        className: 'bg-amber-400 text-stone-700',
       });
       setIsSearching(false);
     }
@@ -73,7 +73,7 @@ const Notes = () => {
   const handleSaveNote = async () => {
     if (!currentNote.title || !currentNote.content) {
       toast.error('Title and content are required.', {
-        className: 'bg-gray-800 text-white',
+        className: 'bg-amber-400 text-stone-700',
       });
       return;
     }
@@ -98,12 +98,12 @@ const Notes = () => {
         setNotes([response.data, ...notes]);
       }
       toast.success('Note saved successfully!', {
-        className: 'bg-gray-800 text-white',
+        className: 'bg-amber-400 text-stone-700',
       });
       setIsModalOpen(false);
     } catch (err) {
       toast.error('Error saving note.', {
-        className: 'bg-gray-800 text-white',
+        className: 'bg-amber-400 text-stone-700',
       });
     }
   };
@@ -126,11 +126,11 @@ const Notes = () => {
       });
       setNotes(notes.filter(note => note.id !== id));
       toast.success('Note deleted successfully!', {
-        className: 'bg-gray-800 text-white',
+        className: 'bg-amber-400 text-stone-700',
       });
     } catch (err) {
       toast.error('Error deleting note.', {
-        className: 'bg-gray-800 text-white',
+        className: 'bg-amber-400 text-stone-700',
       });
     }
   };
