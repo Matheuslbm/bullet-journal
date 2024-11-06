@@ -5,6 +5,8 @@ import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import noteRoutes from './routes/noteRoutes.js';
 
+const path = require('path');
+
 // Cria a instância do servidor Express
 const app = express();
 
@@ -23,7 +25,7 @@ app.get('/', (req, res) => {
 // Rotas de auth(user) e de notas
 app.use('/auth', authRoutes);
 app.use('/notes', noteRoutes);
-app.use('/uploads', express.static('uploads')); // Rota estática para servir arquivos de upload, as fotos de perfil
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Rota estática para servir arquivos de upload, as fotos de perfil
 
 // Inicia o servidor e o coloca para "ouvir" a porta especificada
 app.listen(PORT, () => {
