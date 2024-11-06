@@ -27,6 +27,7 @@ const UserProfile = () => {
         setName(name);
         setEmail(email);
         setProfileImage(profileImage);
+        console.log(profileImage)
       } catch (err) {
         toast.error('Registration failed. Please try again.', {
           className: 'bg-amber-400 text-stone-700',
