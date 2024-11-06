@@ -91,9 +91,8 @@ const UserProfile = () => {
       >
         <img
           src={
-            profileImage
-              ? `https://bullet-journal-ecru.vercel.app${profileImage}`
-              : 'https://bullet-journal-ecru.vercel.app/uploads/user-avatar_8210743.png'
+            profileImage ||
+            '/user-avatar_8210743.png'
           }
           alt="User"
           className="w-full h-full object-cover object-center"
