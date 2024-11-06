@@ -42,6 +42,7 @@ O Feedback  Yourself é uma aplicação de registro de notas pessoais com objeti
     - Biome
     
 ## Demonstração
+Deploy: https://bullet-journal-front.vercel.app/
 
 
 https://github.com/user-attachments/assets/51008827-aa13-4aa4-94db-521b521776d8
