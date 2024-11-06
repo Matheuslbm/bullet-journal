@@ -37,14 +37,11 @@ export const register = async (req, res) => {
     // criptografar a senha
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    
-
     // criar o usuário
-    const user = await createUser({ 
-      name, 
-      email, 
-      password: hashedPassword, 
-    
+    const user = await createUser({
+      name,
+      email,
+      password: hashedPassword,
     });
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
@@ -100,7 +97,6 @@ export const login = async (req, res) => {
 };
 
 export const profile = async (req, res) => {
-  
   try {
     const userId = req.userId; // Recuperado do middleware verifyToken
     const user = await findUserById(userId); // Buscando o usuário no banco de dados

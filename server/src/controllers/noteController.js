@@ -7,12 +7,13 @@ import {
   searchNotesInDb,
 } from '../models/Note.js';
 
-// Validação ao adicionar uma nota
+// Validação ao adicionar uma nota se title e content estao vazios
 export const addNoteValidation = [
   check('title').notEmpty().withMessage('Title is required'),
   check('content').notEmpty().withMessage('Content is required'),
 ];
 
+// adicionar uma nova nota, valida os campos, obtem o userid do toke jwt descodificado pelo middleware, cria uma nova nota title, content
 export const addNote = async (req, res) => {
   //valida
   const errors = validationResult(req);
@@ -28,17 +29,20 @@ export const addNote = async (req, res) => {
     res.status(201).json(note);
   } catch (error) {
     console.error('Error creating note:', error.message);
-    res.status(500).json({ error: 'Internal server error. Please try again later.' });
+    res
+      .status(500)
+      .json({ error: 'Internal server error. Please try again later.' });
   }
 };
 
+// Recupera todas as notas de um usuário específico com base no userid
 export const getNotes = async (req, res) => {
   const { userId } = req;
-  console.log('User Id:', userId)
+  //console.log('User Id:', userId);
 
   try {
     const notes = await findAllNotes(userId);
-    console.log(notes);
+    //console.log(notes);
     res.json(notes);
   } catch (error) {
     console.error('Error fetching notes:', error);
@@ -65,6 +69,7 @@ export const updateNoteValidation = [
   check('content').notEmpty().withMessage('Content is required'),
 ];
 
+// atualiza uma nota com base no id fornecido
 export const updateNote = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -87,7 +92,9 @@ export const updateNote = async (req, res) => {
     res.status(200).json({ message: 'Note updated successfully', note });
   } catch (error) {
     console.error('Error updating note:', error.message);
-    res.status(500).json({ error: 'Internal server error. Please try again later.' });
+    res
+      .status(500)
+      .json({ error: 'Internal server error. Please try again later.' });
   }
 };
 

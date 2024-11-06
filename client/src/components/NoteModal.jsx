@@ -49,14 +49,14 @@ const NoteModal = ({
             onClick={onClose}
             className="mr-2 bg-red-500 hover:bg-red-700 text-stone-800 font-bold py-2 px-4 rounded"
           >
-            Cancelar
+            Cancel
           </button>
           {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button
             onClick={onSave}
             className="bg-amber-400 hover:bg-amber-500 text-stone-800 font-bold py-2 px-4 rounded"
           >
-            Salvar
+            Save
           </button>
         </div>
       </DialogContent>

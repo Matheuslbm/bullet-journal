@@ -28,16 +28,16 @@ const Home = () => {
       <div className="flex flex-col lg:flex-row items-center justify-center flex-1 px-6 lg:px-32 py-8 lg:py-0">
         {/* Texto de apresentaçào */}
         <div className="text-center lg:text-left max-w-lg mb-8 lg:mb-0">
-          <h1 className="lg:text-7xl text-4xl font-bold mb-4 lg:mb-8 leading-tight">Good ideas yourself ➦</h1>
+          <h1 className="lg:text-7xl text-4xl font-bold mb-4 lg:mb-8 leading-tight">Self development journal ➦</h1>
           <p className="text-lg lg:text-2xl mb-8 lg:mb-16 leading-relaxed ">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam cumque reprehenderit repudiandae quaerat cum voluptate, quos, illum exercitationem rerum unde delectus consequatur saepe suscipit rem, nostrum modi. Quidem, expedita ea!
+          The habit of recording how your day went is a tool for self-development. When you finish your day, make notes about it with the aim of discovering what makes you sad or happy, what prevents you from achieving your goals?
           </p>
 
           <Link 
           to="/register" 
           className="bg-black text-white px-8 py-4 lg:px-14 lg:py-6 rounded-full text-lg lg:text-2xl hover:bg-stone-800"
           >
-            Comece agora
+            Start now
           </Link>
         </div>
 

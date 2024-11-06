@@ -40,23 +40,27 @@ const Login = () => {
       </button>
 
       {/* Contêiner do formulário e imagem */}
-      <div className="bg-amber-400 flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-8 px-8 py-12 rounded-2xl shadow-2xl lg:w-[1200px] lg:h-[600px]
-      ">
+      <div
+        className="bg-amber-400 flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-8 px-8 py-12 rounded-2xl shadow-2xl lg:w-[1200px] lg:h-[600px]
+      "
+      >
         {/* Formulário */}
         <form
           onSubmit={handleSubmit}
-          className= 'p-8  w-full max-w-md lg:max-w-lg'
+          className="p-8  w-full max-w-md lg:max-w-lg"
         >
           <h2 className="text-3xl lg:text-6xl font-bold mb-4 text-center text-stone-700">
             Sign in
           </h2>
-          <p className=' text-center text-stone-500 mb-10'>Welcome back! Please enter your details</p>
+          <p className=" text-center text-stone-500 mb-10">
+            Welcome back! Please enter your details
+          </p>
 
-           {/* Input de Email */}
-          <div className="mb-4">        
+          {/* Input de Email */}
+          <div className="mb-4">
             <input
               type="email"
-              placeholder='Email'
+              placeholder="Email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               className="bg-stone-200 border border-violet-400 text-stone-600 text-sm rounded-lg block w-full p-3.5 mb-6 placeholder-gray-500"
@@ -68,7 +72,7 @@ const Login = () => {
           <div className="mb-6">
             <input
               type="password"
-              placeholder='Password'
+              placeholder="Password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               className="bg-stone-200 border border-violet-400 text-stone-600 text-sm rounded-lg block w-full p-3.5 placeholder-gray-500"
@@ -84,13 +88,13 @@ const Login = () => {
             Sign in
           </button>
 
-           {/* Link para Registro */}
+          {/* Link para Registro */}
           {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
           <p
             onClick={() => navigate('/register')}
             className="mt-4 text-center text-stone-500 cursor-pointer hover:underline"
           >
-            Don't have an account? <span className='font-bold'>Sign up</span>
+            Don't have an account? <span className="font-bold">Sign up</span>
           </p>
         </form>
 
