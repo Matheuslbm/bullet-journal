@@ -159,7 +159,8 @@ export const updateProfile = async (req, res) => {
 
     // se houver um arquivo de imagem, armazene-o no campo profileImage
     if (file) {
-      updatedData.profileImage = `/uploads/${file.filename}`; // onde armazena imagem
+      const base64Image = file.buffer.toString('base64');
+      updatedData.profileImage = `data:${file.mimetype};base64,${base64Image}`; // onde armazena imagem
     }
 
     // atualiza o usuário no db

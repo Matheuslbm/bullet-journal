@@ -19,14 +19,7 @@ import multer from 'multer';
 const router = Router();
 
 // Configura o Multer para armazenar imagens de perfil
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // define o caminho para armazenar imagens
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`); // gera nome unico para o arquivo
-  },
-});
+const storage = multer.memoryStorage();
 
 export const upload = multer({ storage });
 

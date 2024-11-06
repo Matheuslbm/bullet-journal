@@ -73,7 +73,7 @@ const UserModal = ({
             {profileImage && (
               <div className="flex justify-center my-4">
                 <img
-                  src={`https://bullet-journal-ecru.vercel.app${profileImage}`}
+                  src={profileImage}
                   alt="User profile"
                   className="mt-8 w-48 h-48 object-cover rounded-full border border-gray-600"
                 />

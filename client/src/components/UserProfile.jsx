@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
-
 const UserProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState('');
@@ -27,7 +26,7 @@ const UserProfile = () => {
         setName(name);
         setEmail(email);
         setProfileImage(profileImage);
-        console.log(profileImage)
+        console.log(profileImage);
       } catch (err) {
         toast.error('Registration failed. Please try again.', {
           className: 'bg-amber-400 text-stone-700',
@@ -59,14 +58,11 @@ const UserProfile = () => {
       setProfileImage(profileImage); //Atualiza a img no front-end
       setFile(null); // Limpa o arquivo após o envio
       setIsModalOpen(false); // Fecha o modal
-      toast.success(
-        'Your user information has been changed successfully!',
-        {
-          className: 'bg-amber-400 text-stone-700',
-        }
-      );
+      toast.success('Your user information has been changed successfully!', {
+        className: 'bg-amber-400 text-stone-700',
+      });
     } catch (err) {
-      toast.error('Registration failed. Please try again.', {
+      toast.error('Error updating profile.', {
         className: 'bg-amber-400 text-stone-700',
       });
     }
@@ -80,8 +76,6 @@ const UserProfile = () => {
     setIsModalOpen(false);
     setFile(null); // limpa o arquivo ao fechar modal
   };
-
-  
 
   return (
     <div className="flex flex-col items-center">
@@ -97,9 +91,8 @@ const UserProfile = () => {
       >
         <img
           src={
-            profileImage
-              ? `https://bullet-journal-ecru.vercel.app${profileImage}`
-              : 'https://bullet-journal-ecru.vercel.app/uploads/user-avatar_8210743.png'
+            profileImage ||
+            'https://bullet-journal-ecru.vercel.app/uploads/user-avatar_8210743.png'
           }
           alt="User"
           className="w-full h-full object-cover object-center"
@@ -118,8 +111,6 @@ const UserProfile = () => {
         onFileChange={handleFileChange}
         profileImage={profileImage}
       />
-
-      
     </div>
   );
 };
