@@ -6,7 +6,7 @@ const Home = () => {
     <div className="min-h-screen bg-[#ffb400] flex flex-col justify-between">
       {/** Barrasuperior com logo e botões */}
       <header className="flex justify-between items-center lg:px-6 lg:py-5 px-4 py-4">
-        <img src="/public/logo-removebg-preview.png" alt="logo escrito yourself feedback" className='lg:w-64 w-36 ' />
+        <img src="/logo-removebg-preview.png" alt="logo escrito yourself feedback" className='lg:w-64 w-36 ' />
         <div className='flex space-x-3 lg:space-x-6'>
           <Link 
           to="/login" 
